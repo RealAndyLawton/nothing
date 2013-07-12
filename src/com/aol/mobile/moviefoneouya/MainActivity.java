@@ -1,5 +1,6 @@
-package col.aol.mobile.moviefoneouya;
+package com.aol.mobile.moviefoneouya;
 
+import col.aol.mobile.moviefoneouya.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

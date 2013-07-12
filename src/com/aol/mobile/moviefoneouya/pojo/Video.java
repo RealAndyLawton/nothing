@@ -1,4 +1,4 @@
-package col.aol.mobile.moviefoneouya.pojo;
+package com.aol.mobile.moviefoneouya.pojo;
 
 import java.util.ArrayList;
 
