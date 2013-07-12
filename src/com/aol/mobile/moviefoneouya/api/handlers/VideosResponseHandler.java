@@ -2,7 +2,10 @@ package com.aol.mobile.moviefoneouya.api.handlers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +27,7 @@ import com.aol.mobile.moviefoneouya.pojo.Video;
  * MovieBasicResponse unusable for this response.
  * 
  */
-public class VideoResponseHandler extends DefaultHandler {
+public class VideosResponseHandler extends DefaultHandler {
 	
 	static final String					TAG				= "VideoResponseHandler";
 
@@ -63,6 +66,10 @@ public class VideoResponseHandler extends DefaultHandler {
 	public Movie getMovie() {
 		return this.mMovie;
 	}
+	
+	public HashMap<String, ArrayList<Video>> getVideosMap() {
+		return mVideosMap;
+	}
 
 	public ArrayList<Movie> getMovieList() {
 		if (mVideosMap != null && !mVideosMap.isEmpty()) {
@@ -72,7 +79,7 @@ public class VideoResponseHandler extends DefaultHandler {
 		}
 		return this.mMovies;
 	}
-
+	
 	public int getTotalCount() {
 		return this.mTotalCount > 0 ? mTotalCount : this.mMovies != null ? mMovies.size() : 0;
 	}
@@ -82,8 +89,14 @@ public class VideoResponseHandler extends DefaultHandler {
 	}
 	
 	public List<Video> getVideos() {
-		// TODO Get the videos from the response, probably using the ArrayList<Video> in mVideosMap
-		return null;
+		
+		List<Video> videos = new ArrayList<Video>();
+		for(Entry<String, ArrayList<Video>> entry : getVideosMap().entrySet()) {
+			videos.addAll(entry.getValue());
+		}
+		
+		return videos;
+		
 	}
 
 	@Override
@@ -187,8 +200,6 @@ public class VideoResponseHandler extends DefaultHandler {
 
 			}
 		}
-
-		// TODO:parse other attributes later
 
 	}
 	

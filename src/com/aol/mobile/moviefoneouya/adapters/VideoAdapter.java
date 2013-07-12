@@ -3,7 +3,6 @@ package com.aol.mobile.moviefoneouya.adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ public class VideoAdapter extends ArrayAdapter<Video> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		
-		Log.d(TAG, "Getting View");
 		VideoViewHolder holder = null;
 
 		// If convertView is empty, we need to inflate a layout
@@ -59,7 +57,7 @@ public class VideoAdapter extends ArrayAdapter<Video> {
 
 		Video video = mVideos.get(position);
 
-		holder.title.setText(video.videoName);
+		holder.title.setText(video.movieTitle);
 		
 		return convertView;
 

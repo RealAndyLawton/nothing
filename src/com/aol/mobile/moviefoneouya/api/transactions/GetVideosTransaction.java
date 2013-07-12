@@ -25,7 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.aol.mobile.moviefoneouya.BusProvider;
 import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
-import com.aol.mobile.moviefoneouya.api.handlers.VideoResponseHandler;
+import com.aol.mobile.moviefoneouya.api.handlers.VideosResponseHandler;
 import com.aol.mobile.moviefoneouya.pojo.Movie;
 
 public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
@@ -51,7 +51,7 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 					Log.d(TAG, response);
 					
 					
-					VideoResponseHandler responseHandler = new VideoResponseHandler();
+					VideosResponseHandler responseHandler = new VideosResponseHandler();
 					
 					try {
 						processXMLResponse(response, responseHandler);
@@ -102,24 +102,24 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 	
 	public class VideosResponseEvent {
 		
-		private VideoResponseHandler mHandler;
+		private VideosResponseHandler mHandler;
 		
-		public VideosResponseEvent(VideoResponseHandler mHandler) {
+		public VideosResponseEvent(VideosResponseHandler handler) {
 			super();
-			this.mHandler = mHandler;
+			this.mHandler = handler;
 		}
 
-		public VideoResponseHandler getmHandler() {
+		public VideosResponseHandler getHandler() {
 			return mHandler;
 		}
 
-		public void setmHandler(VideoResponseHandler mHandler) {
-			this.mHandler = mHandler;
+		public void setmHandler(VideosResponseHandler handler) {
+			this.mHandler = handler;
 		}
 
 	}
 	
-	public void produceVideosResponseEvent(VideoResponseHandler videoResponseHandler) {
+	public void produceVideosResponseEvent(VideosResponseHandler videoResponseHandler) {
 		BusProvider.getBusInstance().post(new VideosResponseEvent(videoResponseHandler));
 	}
 	

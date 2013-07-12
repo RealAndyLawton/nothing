@@ -11,9 +11,6 @@ import android.view.Menu;
 import com.aol.mobile.moviefoneouya.BusProvider;
 import com.aol.mobile.moviefoneouya.Constants;
 import com.aol.mobile.moviefoneouya.R;
-import com.aol.mobile.moviefoneouya.R.id;
-import com.aol.mobile.moviefoneouya.R.layout;
-import com.aol.mobile.moviefoneouya.R.menu;
 import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
 import com.aol.mobile.moviefoneouya.api.transactions.GetVideosTransaction.VideosResponseEvent;
 import com.aol.mobile.moviefoneouya.pojo.Video;
@@ -53,8 +50,7 @@ public class MainActivity extends Activity implements VideoListFragment.VideosLi
 	
 	@Subscribe
 	public void onVideosResponseEvent(VideosResponseEvent event) {
-		Log.d(TAG, "Got Event");
-//		mVideoListFragment.addVideos(event.getmHandler().getVideos());
+		mVideoListFragment.addVideos(event.getHandler().getVideos());
 	}
 	
 

@@ -1,7 +1,6 @@
 package com.aol.mobile.moviefoneouya.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -39,17 +38,9 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if(savedInstanceState == null ) {
-			currentActivity = getActivity();
 			// Initialize the adapters
 			mAdapter = new VideoAdapter(getActivity(), 0, new ArrayList<Video>());
-			
-			//Test Loop 
-			for(int i = 0; i < 10; i++) {
-				Log.d(TAG , "added Video " + Integer.toString(i));
-				Video v = new Video();
-				v.videoName = "Video " + Integer.toString(i); 
-				mAdapter.add(v);
-			}
+
 		}
 	}
 	
@@ -64,7 +55,7 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 
 		super.onAttach(activity);
 
-		// Make sure any Activity hosting this fragment is implementing the OnMovieItemClicked interface
+		// Make sure any Activity hosting this fragment is implementing the VideosListener interface
 		try {
 			mVideosListener = (VideosListener)activity;
 		} catch (ClassCastException e) {
@@ -100,8 +91,11 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 
 	}
 	
-	public void addVideos(HashMap<String, ArrayList<Video>> hashMap) {
-		Log.d(TAG, hashMap.toString());
+	public void addVideos(List<Video> videos) {
+		if(mAdapter != null) {
+			mAdapter.addAll(videos);
+			mAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	public static interface VideosListener {
