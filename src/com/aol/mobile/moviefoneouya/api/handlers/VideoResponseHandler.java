@@ -1,21 +1,14 @@
 package com.aol.mobile.moviefoneouya.api.handlers;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.text.TextUtils;
@@ -41,7 +34,7 @@ public class VideoResponseHandler extends DefaultHandler {
 	// do not parse this for Posters
 	// protected CelebrityData mTempCelebrityData;
 	protected ArrayList<Movie>					mMovies			= new ArrayList<Movie>();
-	protected HashMap<String, ArrayList<Video>>	mVideos			= new HashMap<String, ArrayList<Video>>();
+	protected HashMap<String, ArrayList<Video>>	mVideosMap			= new HashMap<String, ArrayList<Video>>();
 
 	protected int								mTotalCount;
 	protected int								mPage;
@@ -72,9 +65,9 @@ public class VideoResponseHandler extends DefaultHandler {
 	}
 
 	public ArrayList<Movie> getMovieList() {
-		if (mVideos != null && !mVideos.isEmpty()) {
+		if (mVideosMap != null && !mVideosMap.isEmpty()) {
 			for (Movie movie : mMovies) {
-				movie.mVideos = mVideos.get(movie.mMovieId);
+				movie.mVideos = mVideosMap.get(movie.mMovieId);
 			}
 		}
 		return this.mMovies;
@@ -87,16 +80,21 @@ public class VideoResponseHandler extends DefaultHandler {
 	public int getPage() {
 		return this.mPage == 0 ? 1 : this.mPage;
 	}
+	
+	public List<Video> getVideos() {
+		// TODO Get the videos from the response, probably using the ArrayList<Video> in mVideosMap
+		return null;
+	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 
 		if (localName.equalsIgnoreCase("movie")) {
 			isParsingMovie = false;
-			if (mVideos.get(mMovie.mMovieId) == null) {
+			if (mVideosMap.get(mMovie.mMovieId) == null) {
 				ArrayList<Video> videos;
 
-				videos = mVideos.get(mMovie.mMovieId);
+				videos = mVideosMap.get(mMovie.mMovieId);
 
 				if (videos == null) {
 					videos = new ArrayList<Video>();
@@ -105,7 +103,7 @@ public class VideoResponseHandler extends DefaultHandler {
 				videos.add(mVideo);
 				mMovies.add(mMovie);
 
-				mVideos.put(mMovie.mMovieId, videos);
+				mVideosMap.put(mMovie.mMovieId, videos);
 			}
 		} else if (localName.equalsIgnoreCase("movieId")) {
 			mMovie.mMovieId = mCurrentElementData;

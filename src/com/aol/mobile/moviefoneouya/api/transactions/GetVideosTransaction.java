@@ -66,10 +66,7 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 						e.printStackTrace();
 					}
 					finally {
-						List<Movie> movies = responseHandler.getMovieList();
-						if(movies != null) {
-							produceVideosResponseEvent(movies);
-						}
+						produceVideosResponseEvent(responseHandler);
 					}
 					
 				}
@@ -105,24 +102,25 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 	
 	public class VideosResponseEvent {
 		
-		List<Movie> mMovies;
-
-		public VideosResponseEvent(List<Movie> movies) {
-			this.mMovies = movies;
-		}
-
-		public List<Movie> getmMovies() {
-			return mMovies;
-		}
-
-		public void setmMovies(List<Movie> mMovies) {
-			this.mMovies = mMovies;
-		}
+		private VideoResponseHandler mHandler;
 		
+		public VideosResponseEvent(VideoResponseHandler mHandler) {
+			super();
+			this.mHandler = mHandler;
+		}
+
+		public VideoResponseHandler getmHandler() {
+			return mHandler;
+		}
+
+		public void setmHandler(VideoResponseHandler mHandler) {
+			this.mHandler = mHandler;
+		}
+
 	}
 	
-	public void produceVideosResponseEvent(List<Movie> movies) {
-		BusProvider.getBusInstance().post(new VideosResponseEvent(movies));
+	public void produceVideosResponseEvent(VideoResponseHandler videoResponseHandler) {
+		BusProvider.getBusInstance().post(new VideosResponseEvent(videoResponseHandler));
 	}
 	
 }

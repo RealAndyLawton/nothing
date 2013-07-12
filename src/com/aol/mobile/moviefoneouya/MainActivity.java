@@ -1,23 +1,33 @@
 package com.aol.mobile.moviefoneouya;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
 import com.aol.mobile.moviefoneouya.api.transactions.GetVideosTransaction.VideosResponseEvent;
+import com.aol.mobile.moviefoneouya.pojo.Video;
 import com.squareup.otto.Subscribe;
 
 public class MainActivity extends Activity {
-	
-	private final static String TAG = MainActivity.class.getSimpleName();
 
+	private final static String TAG = MainActivity.class.getSimpleName();
+	
+	public VideoListFragment mVideoListFragment;
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle saved) {
+		super.onCreate(saved);
 		setContentView(R.layout.activity_main);
 		
 		BusProvider.getBusInstance().register(this);
+		
+		if(saved != null) {
+			mVideoListFragment = new VideoListFragment();
+			getFragmentManager().beginTransaction().replace(R.id.main_fragment, mVideoListFragment).commit();
+		}
 		
 		requestVideos(1);
 		
@@ -35,7 +45,22 @@ public class MainActivity extends Activity {
 	
 	@Subscribe
 	public void onVideosResponseEvent(VideosResponseEvent event) {
-		Log.d(TAG, "movies="+event.getmMovies());
+		Log.d(TAG, "Got Event");
+//		mVideoListFragment.addVideos(event.getmHandler().getVideos());
+	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public void onVideoItemClicked(Video video) {
+		Intent intent = new Intent(this, VideoActivity.class);
+		intent.putExtra(Constants.VIDEO_BUNDLE_FLAG, video);
+		startActivity(intent);
 	}
 
 }
