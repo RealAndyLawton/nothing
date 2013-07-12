@@ -1,16 +1,25 @@
 package com.aol.mobile.moviefoneouya;
 
-import col.aol.mobile.moviefoneouya.R;
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
+import android.os.Bundle;
 import android.view.Menu;
+import col.aol.mobile.moviefoneouya.R;
 
 public class MainActivity extends Activity {
 
+	
+	public Fragment mVideoListFragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		if(savedInstanceState == null) {
+			mVideoListFragment = new VideoListFragment();
+			getFragmentManager().beginTransaction().replace(R.id.main_fragment, mVideoListFragment).commit();
+		}
 	}
 
 	@Override
