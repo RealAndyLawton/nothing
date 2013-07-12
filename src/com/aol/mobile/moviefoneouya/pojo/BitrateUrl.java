@@ -3,9 +3,8 @@ package com.aol.mobile.moviefoneouya.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 // BitrateUrl class
-// Contains data for Trailer Url and it's corresponding bitrate. No setters/getters
+// Contains data for Trailer Url and it's corresponding bitrates
 public class BitrateUrl implements Parcelable {
     public String mUrl;
     public int mBitrate;
@@ -27,7 +26,15 @@ public class BitrateUrl implements Parcelable {
         mType = Quality.valueOf(in.readString());
     }
     
-    @Override
+    public String getUrl() {
+		return mUrl;
+	}
+
+	public int getBitrate() {
+		return mBitrate;
+	}
+
+	@Override
     public int describeContents() {
         return 0;
     }

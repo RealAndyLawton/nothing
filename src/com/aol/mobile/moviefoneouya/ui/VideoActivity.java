@@ -1,43 +1,89 @@
 package com.aol.mobile.moviefoneouya.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TextView;
 
 import com.aol.mobile.moviefoneouya.Constants;
 import com.aol.mobile.moviefoneouya.R;
-import com.aol.mobile.moviefoneouya.R.id;
-import com.aol.mobile.moviefoneouya.R.layout;
-import com.aol.mobile.moviefoneouya.R.menu;
+import com.aol.mobile.moviefoneouya.pojo.BitrateUrl;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 
 public class VideoActivity extends Activity {
 
+	private static final String TAG = VideoActivity.class.getSimpleName();
+	
 	Video mVideo;
 	TextView text;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_video);
 		text = (TextView)findViewById(R.id.video_name);
 	
-		Intent intent = getIntent();
-		processExtras(intent);
+		processExtras(getIntent());
 		text.setText(mVideo.videoName);
+		
+		playVideo();
 	}
 	
 	private void processExtras(Intent intent) {
-		mVideo = intent.getParcelableExtra(Constants.VIDEO_BUNDLE_FLAG);
+		if(intent.getExtras() != null) {
+			setVideo((Video) intent.getParcelableExtra(Constants.VIDEO_BUNDLE_FLAG));
+		}
 	}
 	
+	private void playVideo() {
+		
+		BitrateUrl highestQualityBitrate = getVideo().getBitrateUrlList().get(0);
+		new PlayVideoTask().execute(highestQualityBitrate.getUrl());
+		
+	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.video, menu);
-		return true;
+	private class PlayVideoTask extends AsyncTask<String, Void, Void> {
+
+		@Override
+		protected Void doInBackground(String... params) {
+			
+			String url = params[0];
+			
+			MediaPlayer mp = new MediaPlayer();
+			try {
+				mp.setDataSource(url);
+				mp.prepare();
+				mp.start();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+			
+		}
+		
+	}
+
+	public Video getVideo() {
+		return mVideo;
+	}
+
+	public void setVideo(Video mVideo) {
+		this.mVideo = mVideo;
 	}
 
 }

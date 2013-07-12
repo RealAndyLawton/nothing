@@ -96,4 +96,134 @@ public class Video extends Poster implements Parcelable {
 		// FIXME Implement using method in this class or child
 //		mPosterUrl = StringUtil.extractLastURL(url);		
 	}
+
+	public String getMovieId() {
+		return movieId;
+	}
+
+	public void setMovieId(String movieId) {
+		this.movieId = movieId;
+	}
+
+	public String getOgid() {
+		return ogid;
+	}
+
+	public void setOgid(String ogid) {
+		this.ogid = ogid;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(String publishDate) {
+		this.publishDate = publishDate;
+	}
+
+	public String getInsertDateTime() {
+		return insertDateTime;
+	}
+
+	public void setInsertDateTime(String insertDateTime) {
+		this.insertDateTime = insertDateTime;
+	}
+
+	public String getMovieTitle() {
+		return movieTitle;
+	}
+
+	public void setMovieTitle(String movieTitle) {
+		this.movieTitle = movieTitle;
+	}
+
+	public String getVideoName() {
+		return videoName;
+	}
+
+	public void setVideoName(String videoName) {
+		this.videoName = videoName;
+	}
+
+	public String getVideoDescription() {
+		return videoDescription;
+	}
+
+	public void setVideoDescription(String videoDescription) {
+		this.videoDescription = videoDescription;
+	}
+
+	public String getVideoLink() {
+		return videoLink;
+	}
+
+	public void setVideoLink(String videoLink) {
+		this.videoLink = videoLink;
+	}
+
+	public String getVideoId() {
+		return mVideoId;
+	}
+
+	public void setVideoId(String mVideoId) {
+		this.mVideoId = mVideoId;
+	}
+
+	public String getLength() {
+		return length;
+	}
+
+	public void setLength(String length) {
+		this.length = length;
+	}
+
+	public String getmGenre() {
+		return mGenre;
+	}
+
+	public void setGenre(String mGenre) {
+		this.mGenre = mGenre;
+	}
+
+	public double getLengthSecs() {
+		return mLengthSecs;
+	}
+
+	public void semLengthSecs(double mLengthSecs) {
+		this.mLengthSecs = mLengthSecs;
+	}
+
+	public ArrayList<BitrateUrl> getBitrateUrlList() {
+		return mBitrateUrlList;
+	}
+
+	public void setBitrateUrlList(ArrayList<BitrateUrl> mBitrateUrlList) {
+		this.mBitrateUrlList = mBitrateUrlList;
+	}
+	
+	
 }
