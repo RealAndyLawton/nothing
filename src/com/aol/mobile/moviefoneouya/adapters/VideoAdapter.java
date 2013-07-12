@@ -13,28 +13,22 @@ import android.widget.TextView;
 import com.aol.mobile.moviefoneouya.R;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 
-
 public class VideoAdapter extends ArrayAdapter<Video> {
-
 	
-	private final String TAG 	= "VideoAdapter";
-	private Context context;
-	List<Video> mVideos;
+	private final String TAG = VideoAdapter.class.getSimpleName();
+
+	private List<Video> mVideos;
 	private LayoutInflater mInflater;
 	
 	public VideoAdapter(Context context, int textViewResourceId, List<Video> videos) {
 		super(context, textViewResourceId, videos);
-		// TODO Auto-generated constructor stub
-		this.context = context;
 		this.mVideos = videos;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
 	
 	private static class VideoViewHolder {
-
 		private TextView title;
-		
 	}
 	
 	@Override
@@ -54,8 +48,8 @@ public class VideoAdapter extends ArrayAdapter<Video> {
 
 			// Find the child views of the inflated layout and store them in the ViewHolder
 			holder = new VideoViewHolder();
-			Log.d(TAG, "Getting Title View");
 			holder.title = (TextView) convertView.findViewById(R.id.video_list_item_title);
+			
 			// Tag the view with the ViewHolder
 			convertView.setTag(holder);
 		}
@@ -64,10 +58,9 @@ public class VideoAdapter extends ArrayAdapter<Video> {
 		}
 
 		Video video = mVideos.get(position);
-		Log.d(TAG, "about to set title");
+
 		holder.title.setText(video.videoName);
-
-
+		
 		return convertView;
 
 	}

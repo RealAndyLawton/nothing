@@ -1,4 +1,6 @@
-package com.aol.mobile.moviefoneouya;
+package com.aol.mobile.moviefoneouya.ui;
+
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,12 +8,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
+import com.aol.mobile.moviefoneouya.BusProvider;
+import com.aol.mobile.moviefoneouya.Constants;
+import com.aol.mobile.moviefoneouya.R;
+import com.aol.mobile.moviefoneouya.R.id;
+import com.aol.mobile.moviefoneouya.R.layout;
+import com.aol.mobile.moviefoneouya.R.menu;
 import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
 import com.aol.mobile.moviefoneouya.api.transactions.GetVideosTransaction.VideosResponseEvent;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 import com.squareup.otto.Subscribe;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements VideoListFragment.VideosListener {
 
 	private final static String TAG = MainActivity.class.getSimpleName();
 	
@@ -24,7 +32,7 @@ public class MainActivity extends Activity {
 		
 		BusProvider.getBusInstance().register(this);
 		
-		if(saved != null) {
+		if(saved == null) {
 			mVideoListFragment = new VideoListFragment();
 			getFragmentManager().beginTransaction().replace(R.id.main_fragment, mVideoListFragment).commit();
 		}
@@ -61,6 +69,12 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, VideoActivity.class);
 		intent.putExtra(Constants.VIDEO_BUNDLE_FLAG, video);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onFirstVideoPageLoaded(List<Video> videos) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

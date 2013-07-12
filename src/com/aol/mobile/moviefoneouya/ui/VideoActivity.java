@@ -1,4 +1,4 @@
-package com.aol.mobile.moviefoneouya;
+package com.aol.mobile.moviefoneouya.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.aol.mobile.moviefoneouya.Constants;
+import com.aol.mobile.moviefoneouya.R;
+import com.aol.mobile.moviefoneouya.R.id;
+import com.aol.mobile.moviefoneouya.R.layout;
+import com.aol.mobile.moviefoneouya.R.menu;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 
 public class VideoActivity extends Activity {

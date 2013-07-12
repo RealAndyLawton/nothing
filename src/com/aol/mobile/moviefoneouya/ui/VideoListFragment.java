@@ -1,9 +1,8 @@
-package com.aol.mobile.moviefoneouya;
+package com.aol.mobile.moviefoneouya.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -18,16 +17,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.aol.mobile.moviefoneouya.R;
 import com.aol.mobile.moviefoneouya.adapters.VideoAdapter;
-import com.aol.mobile.moviefoneouya.api.transactions.GetVideosTransaction.VideosResponseEvent;
 import com.aol.mobile.moviefoneouya.pojo.Video;
-import com.squareup.otto.Subscribe;
 
 public class VideoListFragment extends Fragment implements OnScrollListener {
 	
 	private final String TAG = "VideoListFragment";
 	
-	private static ListView mList;
+	private ListView mList;
 	private int mVideoSelectedIndex;
 	VideoAdapter mAdapter;
 	Activity currentActivity;
