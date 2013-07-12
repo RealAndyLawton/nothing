@@ -1,7 +1,7 @@
 /**
  * 
  */
-package col.aol.mobile.moviefoneouya.pojo;
+package com.aol.mobile.moviefoneouya.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
