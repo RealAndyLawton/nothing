@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +14,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import col.aol.mobile.moviefoneouya.R;
-
 import com.aol.mobile.moviefoneouya.adapters.VideoAdapter;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 
@@ -27,7 +24,7 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 	private final String TAG = "VideoListFragment";
 	
 	private static ListView mList;
-	private int mSelectedIdx;
+	private int mVideoSelectedIndex;
 	VideoAdapter mAdapter;
 	Activity currentActivity;
 	VideosListener mVideosListener;
@@ -61,6 +58,20 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 	}
 	
 	@Override
+	public void onAttach(Activity activity) {
+
+		super.onAttach(activity);
+
+		// Make sure any Activity hosting this fragment is implementing the OnMovieItemClicked interface
+		try {
+			mVideosListener = (VideosListener)activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException("Parent activity needs to implement OnMovieItemClicked");
+		}
+
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
 		Log.d(TAG, "Starting onCreateView");
@@ -76,8 +87,8 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
-				mSelectedIdx = position;
-				mVideosListener.onVideoItemClicked((Movie) adapter.getItemAtPosition(position));
+				mVideoSelectedIndex = position;
+				mVideosListener.onVideoItemClicked((Video) adapter.getItemAtPosition(position));
 			}
 
 		});
@@ -86,10 +97,10 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 
 	}
 	
-	private interface VideosListener {
+	public static interface VideosListener {
 
-		public void onFirstVideoPageLoaded(List<Movie> movies);
-		public void onVideoItemClicked(Movie movie);
+		public void onFirstVideoPageLoaded(List<Video> videos);
+		public void onVideoItemClicked(Video video);
 
 	}
 
