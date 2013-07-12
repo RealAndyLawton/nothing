@@ -10,7 +10,7 @@ public class MoviefoneApi {
 	
 	private static final String TAG = MoviefoneApi.class.getSimpleName();
 
-	public static void getVideos(Context context, String type, int page) {
+	public static void requestVideos(Context context, String type, int page) {
 		
 		GetVideosTransaction transaction = new GetVideosTransaction();
 		transaction.mContext = context;

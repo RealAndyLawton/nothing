@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.aol.mobile.moviefoneouya.BusProvider;
 import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
 import com.aol.mobile.moviefoneouya.api.handlers.VideoResponseHandler;
 import com.aol.mobile.moviefoneouya.pojo.Movie;
@@ -66,7 +67,9 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 					}
 					finally {
 						List<Movie> movies = responseHandler.getMovieList();
-						
+						if(movies != null) {
+							produceVideosResponseEvent(movies);
+						}
 					}
 					
 				}
@@ -99,6 +102,27 @@ public class GetVideosTransaction extends AsyncTask<Void, Void, Void> {
 		xr.parse(s);
 
 	}
+	
+	public class VideosResponseEvent {
+		
+		List<Movie> mMovies;
 
+		public VideosResponseEvent(List<Movie> movies) {
+			this.mMovies = movies;
+		}
+
+		public List<Movie> getmMovies() {
+			return mMovies;
+		}
+
+		public void setmMovies(List<Movie> mMovies) {
+			this.mMovies = mMovies;
+		}
+		
+	}
+	
+	public void produceVideosResponseEvent(List<Movie> movies) {
+		BusProvider.getBusInstance().post(new VideosResponseEvent(movies));
+	}
 	
 }

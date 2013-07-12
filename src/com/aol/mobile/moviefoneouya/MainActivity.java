@@ -1,28 +1,41 @@
 package com.aol.mobile.moviefoneouya;
 
-import com.aol.mobile.moviefoneouya.R;
-import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
-
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.os.Bundle;
+import android.util.Log;
+
+import com.aol.mobile.moviefoneouya.api.MoviefoneApi;
+import com.aol.mobile.moviefoneouya.api.transactions.GetVideosTransaction.VideosResponseEvent;
+import com.squareup.otto.Subscribe;
 
 public class MainActivity extends Activity {
+	
+	private final static String TAG = MainActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		MoviefoneApi.getVideos(this, "", 1);
+		BusProvider.getBusInstance().register(this);
 		
+		requestVideos(1);
+		
+	}
+	
+	private void requestVideos(int page) {
+		MoviefoneApi.requestVideos(this, "", page);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	protected void onDestroy() {
+		BusProvider.getBusInstance().unregister(this);
+		super.onDestroy();
+	}
+	
+	@Subscribe
+	public void onVideosResponseEvent(VideosResponseEvent event) {
+		Log.d(TAG, "movies="+event.getmMovies());
 	}
 
 }
