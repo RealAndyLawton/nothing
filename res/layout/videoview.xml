@@ -5,7 +5,8 @@
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent" 
 	    android:gravity="center" 
-	    android:orientation="horizontal"> 
+	    android:orientation="horizontal"
+	    android:background="#A9A9A9"> 
 	    <VideoView 
 	        android:id="@+id/surface_view" 
 	        android:layout_width="wrap_content"
@@ -17,7 +18,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:orientation="vertical"
-		android:background="#CC666666"
+		android:background="#A9A9A9"
 		android:visibility="gone"
 		android:layout_gravity="bottom">
 
