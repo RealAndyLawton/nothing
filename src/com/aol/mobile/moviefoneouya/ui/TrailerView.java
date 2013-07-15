@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Locale;
 
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -76,7 +78,7 @@ public class TrailerView extends Fragment {
 
 	private Video mVideo = null;
 	private String mUrl = null;
-	private ProgressDialog mProgressDialog;
+	private ProgressDialogFragment mProgressDialog;
 
 	private static class TrailerSelectionList {
 		public String mName;
@@ -310,14 +312,20 @@ public class TrailerView extends Fragment {
 	}
 
 	private void showProgressDialog() {
-		mProgressDialog = new ProgressDialog(getActivity());
-		mProgressDialog.setTitle(R.string.loading_please_wait);
-		mProgressDialog.show();
+		mProgressDialog = new ProgressDialogFragment();
+//		mProgressDialog.setText(R.string.loading_please_wait);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		fragmentTransaction.add(R.id.myfragment, mProgressDialog);
+		fragmentTransaction.commit();
+//		mProgressDialog.show();
 	}
 
 	private void hideProgressDialog() {
 		if(mProgressDialog != null) {
-			mProgressDialog.dismiss();
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+			fragmentTransaction.remove(mProgressDialog);
+			fragmentTransaction.commit();
+//			mProgressDialog.dismiss();
 		}
 
 	}
