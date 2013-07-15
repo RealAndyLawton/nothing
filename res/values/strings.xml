@@ -5,5 +5,14 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_video">VideoActivity</string>
-
+    
+    <!-- TrailerView Strings -->
+    <string name="low">LD</string>
+    <string name="medium">SD</string>
+    <string name="high">HD</string>
+    <string name="hd_prefix">HD</string>
+    <string name="unable_to_play_video_fallback_to_lower_quality">Unable to play trailer. Retrying with a lower quality</string>
+    <string name="select_trailer_quality">Select Trailer Quality</string>
+    <string name="loading_please_wait">Loading Please Wait</string>
+	
 </resources>

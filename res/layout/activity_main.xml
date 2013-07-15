@@ -6,13 +6,13 @@
     <fragment
         android:id="@+id/list_fragment"
         android:name = "com.aol.mobile.moviefoneouya.ui.VideoListFragment"
-        android:layout_width="320dp"
+        android:layout_width="280dp"
         android:layout_height="fill_parent" 
         android:layout_marginRight="5dp"/>
 
     <fragment
         android:id="@+id/video_fragment"
-        android:name="com.aol.mobile.moviefoneouya.ui.TestFragment"
+        android:name="com.aol.mobile.moviefoneouya.ui.TrailerView"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent" />
 

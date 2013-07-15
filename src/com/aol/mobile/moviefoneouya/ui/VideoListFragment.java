@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.aol.mobile.moviefoneouya.Globals;
 import com.aol.mobile.moviefoneouya.R;
 import com.aol.mobile.moviefoneouya.adapters.VideoAdapter;
 import com.aol.mobile.moviefoneouya.pojo.Video;
