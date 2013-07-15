@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.aol.mobile.moviefoneouya.Constants;
@@ -42,6 +43,7 @@ public class VideoActivity extends Activity {
 	private void playVideo() {
 		
 		BitrateUrl highestQualityBitrate = getVideo().getBitrateUrlList().get(0);
+		Log.d(TAG, highestQualityBitrate.getUrl());
 		new PlayVideoTask().execute(highestQualityBitrate.getUrl());
 		
 	}
@@ -60,15 +62,19 @@ public class VideoActivity extends Activity {
 				mp.start();
 			} catch (IllegalArgumentException e) {
 				// TODO Auto-generated catch block
+				Log.e(TAG, "Caught IllegalArgumentException");
 				e.printStackTrace();
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
+				Log.e(TAG, "Caught SecurityException");
 				e.printStackTrace();
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
+				Log.e(TAG, "Caught IllegalStateException");
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				Log.e(TAG, "Caught IOException");
 				e.printStackTrace();
 			}
 			

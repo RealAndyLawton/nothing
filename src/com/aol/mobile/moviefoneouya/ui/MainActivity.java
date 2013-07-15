@@ -5,7 +5,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 
 import com.aol.mobile.moviefoneouya.BusProvider;
@@ -30,8 +29,11 @@ public class MainActivity extends Activity implements VideoListFragment.VideosLi
 		BusProvider.getBusInstance().register(this);
 		
 		if(saved == null) {
-			mVideoListFragment = new VideoListFragment();
-			getFragmentManager().beginTransaction().replace(R.id.main_fragment, mVideoListFragment).commit();
+			mVideoListFragment = (VideoListFragment) getFragmentManager().findFragmentById(R.id.list_fragment);
+//			mVideoListFragment = new VideoListFragment();
+//			TestFragment t = new TestFragment();
+//			getFragmentManager().beginTransaction().add(R.id.list_fragment, mVideoListFragment).commit();
+//			getFragmentManager().beginTransaction().add(R.id.video_fragment, t).commit();
 		}
 		
 		requestVideos(1);

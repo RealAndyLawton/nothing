@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,15 +20,17 @@ import com.aol.mobile.moviefoneouya.R;
 import com.aol.mobile.moviefoneouya.adapters.VideoAdapter;
 import com.aol.mobile.moviefoneouya.pojo.Video;
 
-public class VideoListFragment extends Fragment implements OnScrollListener {
-	
+public class VideoListFragment extends ListFragment implements OnScrollListener {
+
 	private final String TAG = "VideoListFragment";
-	
+
 	private ListView mList;
 	private int mVideoSelectedIndex;
 	VideoAdapter mAdapter;
 	Activity currentActivity;
 	VideosListener mVideosListener;
+	View view;
+	ArrayList<Video> mVideosList;
 
 	public VideoListFragment() {
 		//Stub
@@ -39,17 +41,34 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 		super.onCreate(savedInstanceState);
 		if(savedInstanceState == null ) {
 			// Initialize the adapters
-			mAdapter = new VideoAdapter(getActivity(), 0, new ArrayList<Video>());
+			Log.d(TAG, "starting on Create.");
+			
 
 		}
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		mAdapter = new VideoAdapter(getActivity(), 0 ,new ArrayList<Video>());
 		currentActivity = getActivity();
+		
+		mList = getListView();
+
+		mList.setAdapter(mAdapter);
+		mList.setOnScrollListener(this);
+
+		mList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
+				mVideoSelectedIndex = position;
+				mVideosListener.onVideoItemClicked((Video) adapter.getItemAtPosition(position));
+			}
+
+		});
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 
@@ -64,40 +83,26 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 
 	}
 	
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
-		Log.d(TAG, "Starting onCreateView");
-		View v = inflater.inflate(R.layout.video_list_view, container, false);
-			
-		// Set up the ListView
-		mList = (ListView) v.findViewById(R.id.videos_list);
-		
-		mList.setAdapter(mAdapter);
-		mList.setOnScrollListener(this);
-		
-		mList.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
-				mVideoSelectedIndex = position;
-				mVideosListener.onVideoItemClicked((Video) adapter.getItemAtPosition(position));
-			}
+		Log.d(TAG, "Starting onCreateView Again");
+		view = inflater.inflate(R.layout.video_list_view, container, false);
+		
+		
 
-		});
 
-		return v;
+		return view;
 
 	}
-	
+
 	public void addVideos(List<Video> videos) {
-		if(mAdapter != null) {
-			mAdapter.addAll(videos);
-			mAdapter.notifyDataSetChanged();
-		}
+		mAdapter.clear();
+		mAdapter.addAll(videos);
+		mAdapter.notifyDataSetChanged();
 	}
-	
+
 	public static interface VideosListener {
 
 		public void onFirstVideoPageLoaded(List<Video> videos);
@@ -109,13 +114,13 @@ public class VideoListFragment extends Fragment implements OnScrollListener {
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
