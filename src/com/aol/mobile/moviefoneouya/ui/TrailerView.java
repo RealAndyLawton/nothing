@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Locale;
 
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -29,6 +27,7 @@ import android.widget.VideoView;
 
 import com.aol.mobile.core.logging.Logger;
 import com.aol.mobile.core.util.StringUtil;
+import com.aol.mobile.moviefoneouya.Constants;
 import com.aol.mobile.moviefoneouya.Globals;
 import com.aol.mobile.moviefoneouya.R;
 import com.aol.mobile.moviefoneouya.pojo.BitrateUrl;
@@ -105,7 +104,7 @@ public class TrailerView extends Fragment {
 				String name = mTrailerQualitySelectionList.get(index).mName;
 				mHqButton.setText(name);
 				Globals.setDefaultTrailerQuality(name);
-				switchVideoMode();
+				switchVideo();
 			} else {
 				return false;
 			}
@@ -116,33 +115,21 @@ public class TrailerView extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		//		Bundle extra = getIntent().getExtras();
-		//
-		//		if (extra != null) {
-		//			
-		//		}
-
+		//Stub
 	}
 
 
 	public void startVideo(Video video) {
 		showProgressDialog();
 		mVideo = video;
-		//		if (mVideo != null && !StringUtil.isNullOrEmpty(mVideo.videoLink)) {
-		//			mUrl = mVideo.videoLink;
-		//			setContentView(R.layout.videoview);
-		//			createView();
-		//		} else
-		//			finish();
 		mBitrateUrlList.clear();
-		mBitrateUrlList = mVideo.mBitrateUrlList;
+		mBitrateUrlList.addAll(mVideo.mBitrateUrlList);
 		if (mBitrateUrlList != null && mBitrateUrlList.size() > 0) {
 			updateSelectionList();
 			mUrl = getUrlToPlay();
 			switchVideo();
 		} else {
-			//			finish();
+			// Do nothing, No BitRateUrls To Show, Should never get here
 		}
 	}
 
@@ -210,12 +197,11 @@ public class TrailerView extends Fragment {
 			public void onCompletion(MediaPlayer mp) {
 				try {
 					Thread.sleep(500); // wait for 500ms before closing the
-					// trailer view
+					// Create a Blank Fragment to Set this View to 
 
 				} catch (Exception ex) {
 				}
-				//				setResult(Activity.RESULT_OK);
-				//				finish();
+
 			}
 		});
 
@@ -242,8 +228,6 @@ public class TrailerView extends Fragment {
 		if (mFormatBuilder != null) {
 			mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 		}
-
-		//		showProgressDialog(R.string.loading_please_wait);
 	}
 
 	private void updateShowHideMediaPanel() {
@@ -254,34 +238,11 @@ public class TrailerView extends Fragment {
 		}
 	}
 
-	private void switchVideoMode() {
-		String url = getUrlToPlay();
-		if (!StringUtil.isNullOrEmpty(url)) {
-			// pause the
-			mVideoView.pause();
-			int position = mVideoView.getCurrentPosition();
-			mVideoView.stopPlayback();
-			mVideoView.setVideoPath(url);
-			mVideoView.seekTo(position);
-			setProgress();
 
-			// show spinner while the trailer is getting loaded
-			mVideoView.setOnPreparedListener(new OnPreparedListener() {
-				public void onPrepared(MediaPlayer mp) {
-					//					dismissProgressDialog(R.string.loading_please_wait);
-					// NOTE: Not sure why we need to do the following but it seems
-					// to fix the blank video screen
-					// issue when playing video on HTC EVO device specifically
-					mVideoView.setVisibility(View.VISIBLE);
-					hideProgressDialog();
-					mVideoView.start();
-				}
-			});
-
-			//			showProgressDialog(R.string.loading_please_wait);
-			mVideoView.start();
-		}
-	}
+	/* Must Call this Method before every Movie is started, 
+	 * If mVideoView.stopPlayback() is not called, can cause 
+	 * out of memory errors in the device 
+	 */
 
 	public void switchVideo() {
 		String url = getUrlToPlay();
@@ -296,7 +257,6 @@ public class TrailerView extends Fragment {
 			// show spinner while the trailer is getting loaded
 			mVideoView.setOnPreparedListener(new OnPreparedListener() {
 				public void onPrepared(MediaPlayer mp) {
-					//					dismissProgressDialog(R.string.loading_please_wait);
 					// NOTE: Not sure why we need to do the following but it seems
 					// to fix the blank video screen
 					// issue when playing video on HTC EVO device specifically
@@ -306,8 +266,7 @@ public class TrailerView extends Fragment {
 				}
 			});
 
-			//			showProgressDialog(R.string.loading_please_wait);
-			// mVideoView.start();
+
 		}
 	}
 
@@ -611,42 +570,6 @@ public class TrailerView extends Fragment {
 			item.mBitrateUrlListIndex = i++;
 			mTrailerQualitySelectionList.add(item);
 		}
-
-		//		for (int i = 0; i < mBitrateUrlList.size(); i++) {
-		//			TrailerSelectionList item = new TrailerSelectionList();
-		//			if (mBitrateUrlList.get(i).mBitrate != -1) {
-		//				// non-HD bitrates
-		//				if (mBitrateUrlList.get(i).mBitrate <= Constants.LOW_QUALITY_BITRATE) {
-		//					item.mName = Globals.getResourceString(R.string.low);
-		//				} else if (mBitrateUrlList.get(i).mBitrate <= Constants.MEDIUM_QUALITY_BITRATE) {
-		//					item.mName = Globals.getResourceString(R.string.medium);
-		//				} else if (mBitrateUrlList.get(i).mBitrate <= Constants.HIGH_QUALITY_BITRATE) {
-		//					item.mName = Globals.getResourceString(R.string.high);
-		//				} else {
-		//					// any trailer bitrate > Constants.HIGH_QUALITY_BITRATE in
-		//					// non-HD, we ignore them for them
-		//					item.mName = null;
-		//				}
-		//			} else {
-		//				// HD bitrates
-		//				item.mName = Globals.getResourceString(R.string.hd_prefix)
-		//						+ mBitrateUrlList.get(i).mType + "p";
-		//			}
-		//			item.mBitrateUrlListIndex = i;
-		//			if (!StringUtil.isNullOrEmpty(item.mName)) {
-		//				int index = findQualityPosition(item.mName);
-		//				if (index < 0) {
-		//					// item not already in the list, so add it
-		//					mTrailerQualitySelectionList.add(item);
-		//				} else {
-		//					// item already present, so update it
-		//					TrailerSelectionList existingItem = mTrailerQualitySelectionList
-		//							.get(index);
-		//					existingItem.mBitrateUrlListIndex = item.mBitrateUrlListIndex;
-		//					mTrailerQualitySelectionList.set(index, existingItem);
-		//				}
-		//			}
-		//		}
 	}
 
 	private int findQualityPosition(String qualityName) {

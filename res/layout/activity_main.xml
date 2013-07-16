@@ -10,22 +10,10 @@
         android:layout_height="fill_parent"
         android:layout_marginRight="5dp" />
 
-    <FrameLayout
+    <fragment
+        android:id="@+id/video_fragment"
+        android:name="com.aol.mobile.moviefoneouya.ui.TrailerView"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent" >
-
-        <fragment
-            android:id="@+id/video_fragment"
-            android:name="com.aol.mobile.moviefoneouya.ui.TrailerView"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" />
-
-        <FrameLayout
-            android:id="@+id/myfragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal" />
-    </FrameLayout>
+        android:layout_height="fill_parent" />
 
 </LinearLayout>
