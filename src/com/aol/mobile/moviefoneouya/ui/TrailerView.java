@@ -78,7 +78,7 @@ public class TrailerView extends Fragment {
 
 	private Video mVideo = null;
 	private String mUrl = null;
-	private ProgressDialogFragment mProgressDialog;
+	private ProgressDialog mProgressDialog;
 
 	private static class TrailerSelectionList {
 		public String mName;
@@ -312,20 +312,15 @@ public class TrailerView extends Fragment {
 	}
 
 	private void showProgressDialog() {
-		mProgressDialog = new ProgressDialogFragment();
-//		mProgressDialog.setText(R.string.loading_please_wait);
-		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-		fragmentTransaction.add(R.id.myfragment, mProgressDialog);
-		fragmentTransaction.commit();
-//		mProgressDialog.show();
+		mProgressDialog = new ProgressDialog(getActivity());
+		mProgressDialog.setTitle(R.string.loading_please_wait);
+		mProgressDialog.show();
+
 	}
 
 	private void hideProgressDialog() {
 		if(mProgressDialog != null) {
-			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-			fragmentTransaction.remove(mProgressDialog);
-			fragmentTransaction.commit();
-//			mProgressDialog.dismiss();
+			mProgressDialog.dismiss();
 		}
 
 	}
